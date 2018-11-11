@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-    Скрапинг объектов недвижимости, сдающихся государством в аренду
+    Скрапинг объектов недвижимости, сдающихся государством в аренду на сайте "torgi.gov.ru"
 """
 import allure
 import pytest
 
 from test_suites import config_file
-from test_suites.base_test_class import BaseTestClass
+from test_suites.TorgiGovRu.torgi_gov_ru_helper import TorgiGovRuHelper
 
 
-class TestTorgiGovRu(BaseTestClass):
+class TestTorgiGovRu(TorgiGovRuHelper):
 
     def setup_method(self) -> None:
         """ Метод выполнится перед каждым тестовым методом класса """
@@ -25,9 +25,40 @@ class TestTorgiGovRu(BaseTestClass):
     # @pytest.skip
     @allure.feature("1. TorgiGovRu")
     @pytest.mark.run(order=101)
-    # @pytest.mark.dependency()
-    @allure.step("Доступность WEB приложения")
-    def test_web_app_accessibility(self):
-        """ Проверка доступности WEB приложения """
+    @pytest.mark.dependency()
+    @allure.step("Выставить фильтры поиска")
+    def test_set_search_filters(self):
+        """ Выставить фильтры поиска """
+
         # Открыть страницу сайта
         self.open_site(config_file.SITE_NAME)
+
+        # Выбрать тип торгов
+        # self.set_auction_type()
+
+        # Войти в расширенный поиск
+        self.come_in_ext_search()
+
+        # Указать тип имущества
+        self.set_property_type()
+
+        # Указать вид договора
+        self.set_contract_type()
+
+        # Указать страну
+        self.set_country()
+
+        # Указать местоположение имущества
+        self.set_property_location()
+
+        # Указать диапазон площади объекта
+        self.set_object_area_range()
+
+        # Указать минимальный срок аренды
+        self.set_rental_period()
+
+        # Искать
+        self.search_button_click()
+
+        # Дождаться отображения объектов
+        self.objects_wait()

@@ -255,11 +255,15 @@ class BaseTestClass(object):
 
     ####################################################################################################################
     def shading_disappearing(self) -> None:
-        """ Ожидание пропадания затемнения """
+        """ Ожидание исчезновения затемнения """
         self.log.debug(f"Work '{self.get_method_name()}'")
-        shading_xpath = "//div[@id='BlockLoaderPanel' and contains(@style, 'display')]"
+        rent_button_xpath = "//a[contains(@title,'Аренда, безвозмездное пользование, доверительное управление " \
+                            "имуществом, иные договоры, предусматривающие передачу прав владения и пользования в " \
+                            "отношении государственного и муниципального имущества')]"
+
         wait.WebDriverWait(self.drv, config_file.IMPLICITLY_WAIT_TIMEOUT) \
-            .until(ec.invisibility_of_element_located((By.XPATH, shading_xpath)))
+            .until(ec.element_to_be_clickable((By.XPATH, rent_button_xpath)))
+
         self.log.debug("The shading was gone")
 
     ####################################################################################################################
