@@ -9,7 +9,7 @@ from test_suites import config_file
 from test_suites.base_test_class import BaseTestClass
 
 
-class TestRealObject1(BaseTestClass):
+class TestTorgiGovRu(BaseTestClass):
 
     def setup_method(self) -> None:
         """ Метод выполнится перед каждым тестовым методом класса """
@@ -23,7 +23,7 @@ class TestRealObject1(BaseTestClass):
 
     ####################################################################################################################
     # @pytest.skip
-    @allure.feature("1. RealObject1")
+    @allure.feature("1. TorgiGovRu")
     @pytest.mark.run(order=101)
     # @pytest.mark.dependency()
     @allure.step("Доступность WEB приложения")
