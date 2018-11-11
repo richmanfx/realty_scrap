@@ -1,0 +1,5 @@
+
+    Name: <Указать_имя>
+    (*) Path                    /home/zoer/PycharmProjects/pit_web_tests_v12/test_suites
+    Additional Arguments        -v -l -s --alluredir results_for_allure --allure-features "1. Smoke"
+    Python interpreter:         <Выбрать_интерпретатор>

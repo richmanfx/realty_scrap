@@ -1,0 +1,13 @@
+
+# File for generation 'requirements.txt' with 'pip-tools':
+#   pip-compile --output-file requirements.txt requirements.in
+
+allure-pytest
+logbook
+pip-tools
+pytest == 3.7.4
+pytest-dependency == 0.2
+pytest-ordering
+pytest-assume
+selene == 1.0.0a12
+webdriver-manager==1.4.5        # Новые весрсии не умеют phantomjs
