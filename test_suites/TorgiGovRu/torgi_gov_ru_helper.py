@@ -2,8 +2,9 @@
 """ Хелпер скрапа объектов недвижимости, сдающихся государством в аренду на сайте "torgi.gov.ru" """
 import time
 
-from selene.support import by
-from selene.support.jquery_style_selectors import s
+from selene.api import *
+# from selene.support import by
+# from selene.support.jquery_style_selectors import s, ss
 
 from selenium.webdriver.support.ui import Select
 
@@ -140,3 +141,45 @@ class TorgiGovRuHelper(BaseTestClass):
         objects_quantity = label_text.split(" ")[-1]
 
         return objects_quantity
+
+    def object_info_collect(self) -> dict:
+        """ Собирает информацию по всем найденным объектам """
+        self.log.debug(f"Work '{self.get_method_name()}'")
+
+        object_info = {}
+
+        real_obj_xpath = "//div[@class='scrollx']/table//tr[contains(@class,'datarow')]"
+        real_objects = ss(by.xpath(real_obj_xpath))
+        real_objects_on_page_count = real_objects.size()
+
+        # Номера извещений объектов
+        notice_numbers_xpath = real_obj_xpath + "/td[3]/span/span[1]"
+        objects_notice_numbers = ss(by.xpath(notice_numbers_xpath))
+
+        # Площадь объектов
+        area_xpath = real_obj_xpath + "/td[3]/span/span[4]"
+        objects_areas = ss(by.xpath(area_xpath))
+
+        # Стоимость аренды в месяц
+        rent_xpath = real_obj_xpath + "/td[7]/span"
+        objects_month_rents = ss(by.xpath(rent_xpath))
+
+        # Срок аренды
+        rent_periods_xpath = real_obj_xpath + "/td[6]/span/span[2]"
+        objects_rent_periods = ss(by.xpath(rent_periods_xpath))
+
+        # Ссылка для просмотра
+        link_xpath = real_obj_xpath + "/td[1]//a[@title='Просмотр']"
+        objects_links = ss(by.xpath(link_xpath))
+
+        # Информацию в словарь
+        for index in range(real_objects_on_page_count):
+            object_info[index] = [
+                objects_notice_numbers[index].text,
+                float(objects_areas[index].text.replace(" м²", "")),
+                float(objects_month_rents[index].text.replace(" ", "").replace(",", ".").replace("руб.", "")),
+                objects_links[index].get_attribute("href"),
+                int(objects_rent_periods[index].text.replace(" лет", "")),
+            ]
+
+        return object_info
