@@ -67,8 +67,6 @@ class TorgiGovRuHelper(BaseTestClass):
         select = Select(s(by.xpath(select_country_xpath)))
         select.select_by_visible_text("РОССИЯ")
 
-        time.sleep(config_file.WAIT_TIMEOUT)  # Костылим, по другому не хочет
-
     def set_property_location(self) -> None:
         """ Указать местоположение имущества """
         self.log.debug(f"Work '{self.get_method_name()}'")
@@ -103,7 +101,7 @@ class TorgiGovRuHelper(BaseTestClass):
         self.flash(s(by.xpath(min_label_xpath)))
         s(by.xpath(min_field_xpath)).set_value(config_file.OBJECT_MIN_AREA)
 
-        max_label_xpath = "//label[text()='по:']"
+        max_label_xpath = "//label[text()='Площадь (м²) с:']/../following-sibling::td/label[text()='по:']"
         max_field_xpath = "//input[@name='extended:areaMeters:stringAreaMetersTo']"
         self.flash(s(by.xpath(max_label_xpath)))
         s(by.xpath(max_field_xpath)).set_value(config_file.OBJECT_MAX_AREA)
@@ -131,4 +129,14 @@ class TorgiGovRuHelper(BaseTestClass):
         xpath = "//h2/span[contains(text(),'найдено лотов')]"
         self.flash(s(by.xpath(xpath))).is_displayed()
 
-        time.sleep(60)
+        time.sleep(config_file.WAIT_TIMEOUT)        # Для завершения поиска и
+
+    def get_objects_quantity(self) -> int:
+        """ Определить количество найденных объектов """
+        self.log.debug(f"Work '{self.get_method_name()}'")
+
+        xpath = "//h2/span[contains(text(),'найдено лотов')]"
+        label_text = self.flash(s(by.xpath(xpath))).text
+        objects_quantity = label_text.split(" ")[-1]
+
+        return objects_quantity

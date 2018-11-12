@@ -26,7 +26,7 @@ class TestTorgiGovRu(TorgiGovRuHelper):
     @allure.feature("1. TorgiGovRu")
     @pytest.mark.run(order=101)
     @pytest.mark.dependency()
-    @allure.step("Выставить фильтры поиска")
+    @allure.step("Выставление фильтров поиска")
     def test_set_search_filters(self):
         """ Выставить фильтры поиска """
 
@@ -62,3 +62,17 @@ class TestTorgiGovRu(TorgiGovRuHelper):
 
         # Дождаться отображения объектов
         self.objects_wait()
+
+    ####################################################################################################################
+    # @pytest.skip
+    @allure.feature("1. TorgiGovRu")
+    @pytest.mark.run(order=102)
+    @pytest.mark.dependency(depends=["test_set_search_filters"])
+    @allure.step("Сбор информации об объектах")
+    def test_collect_information_about_objects(self):
+        """ Собрать информацию об объектах """
+
+        # Определить количество найденных объектов
+        objects_quantity = self.get_objects_quantity()
+
+        self.log.debug(f"Количество найденных объектов: {objects_quantity}")
