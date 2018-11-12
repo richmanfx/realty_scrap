@@ -77,5 +77,6 @@ class TestTorgiGovRu(TorgiGovRuHelper):
         self.log.debug(f"Количество найденных объектов: {objects_quantity}")
 
         # Собрать информацию об объектах
-        real_obj = self.object_info_collect()
-        self.log.debug(f"Колекция объектов: {real_obj}")
+        self.object_info_collect({})
+        self.log.debug(f"Колекция объектов: {self.new_object_info}")
+

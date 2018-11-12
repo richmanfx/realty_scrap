@@ -15,6 +15,8 @@ from test_suites.base_test_class import BaseTestClass
 class TorgiGovRuHelper(BaseTestClass):
     """ Хелпер скрапа объектов недвижимости, сдающихся государством в аренду на сайте "torgi.gov.ru" """
 
+    new_object_info = {}
+
     def come_in_ext_search(self) -> None:
         """ Войти в расширенный поиск """
         self.log.debug(f"Work '{self.get_method_name()}'")
@@ -142,8 +144,47 @@ class TorgiGovRuHelper(BaseTestClass):
 
         return objects_quantity
 
-    def object_info_collect(self) -> dict:
-        """ Собирает информацию по всем найденным объектам """
+    def object_info_collect(self, all_object_info: dict) -> None:
+        """ Собирает информацию по объектам на всех страницах """
+        self.log.debug(f"Work '{self.get_method_name()}'")
+
+        # Собрать на текущей странице
+        object_info = self.one_page_object_info_collect()
+
+        # Добавить к основному словарю
+        self.new_object_info = self.merge_two_dicts(all_object_info, object_info)
+
+        # Есть ли следующая страница
+        next_page_xpath = "//a[@title='Перейти на одну страницу вперед']"
+        next_page_links = ss(by.xpath(next_page_xpath))
+        if next_page_links.size() < 1:   # Условие выхода из рекурсии
+            # Выходим
+            # self.log.debug("Выход из рекурсии")
+            return
+        else:
+            # Перейти на следующую страницу
+            self.go_to_next_page()
+            self.object_info_collect(self.new_object_info)      # Рекурсия
+
+    def go_to_next_page(self):
+        """ Пагинация """
+        self.log.debug(f"Work '{self.get_method_name()}'")
+
+        next_page_xpath = "//a[@title='Перейти на одну страницу вперед']"
+        next_page_link = s(by.xpath(next_page_xpath))
+        self.flash(next_page_link)
+        next_page_link.click()
+        time.sleep(config_file.WAIT_TIMEOUT)
+
+    @staticmethod
+    def merge_two_dicts(dict_1: dict, dict_2: dict) -> dict:
+        """ Объединить два словаря """
+        sum_dict = dict_1.copy()
+        sum_dict.update(dict_2)
+        return sum_dict
+
+    def one_page_object_info_collect(self) -> dict:
+        """ Собирает информацию по объектам на одной странице """
         self.log.debug(f"Work '{self.get_method_name()}'")
 
         object_info = {}
@@ -174,8 +215,7 @@ class TorgiGovRuHelper(BaseTestClass):
 
         # Информацию в словарь
         for index in range(real_objects_on_page_count):
-            object_info[index] = [
-                objects_notice_numbers[index].text,
+            object_info[objects_notice_numbers[index].text] = [
                 float(objects_areas[index].text.replace(" м²", "")),
                 float(objects_month_rents[index].text.replace(" ", "").replace(",", ".").replace("руб.", "")),
                 objects_links[index].get_attribute("href"),
