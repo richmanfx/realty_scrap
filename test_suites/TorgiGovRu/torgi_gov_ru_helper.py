@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """ Хелпер скрапа объектов недвижимости, сдающихся государством в аренду на сайте "torgi.gov.ru" """
+
 import time
+import pickle
 
 from selene.api import *
 # from selene.support import by
@@ -223,3 +225,7 @@ class TorgiGovRuHelper(BaseTestClass):
             ]
 
         return object_info
+
+    def to_file_save(self, info_to_save: dict) -> None:
+        """ Сохранить информацио в файл """
+        self.log.debug(f"Work '{self.get_method_name()}'")

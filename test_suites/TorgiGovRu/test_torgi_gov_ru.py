@@ -80,3 +80,5 @@ class TestTorgiGovRu(TorgiGovRuHelper):
         self.object_info_collect({})
         self.log.debug(f"Колекция объектов: {self.new_object_info}")
 
+        # Сериализовать в файл
+        self.to_file_save(self.new_object_info)
