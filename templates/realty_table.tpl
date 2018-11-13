@@ -2,17 +2,23 @@
 <html lang="ru">
     <head>
     	<meta charset="utf-8">
-        <title>Realty</title>
-        <link rel="stylesheet" type="text/css" href="css/qa.css">
+        <title>Realty Objects</title>
+        <link rel="stylesheet" type="text/css" href="css/real.css">
     </head>
 
 
     <body>
     	<h1>Объекты недвижимости</h1>
 
-        <table border="1">
+        <table class="rwd-table">
+            <tr>
+                {% for titles in table_titles %}
+                    <th>{{titles}}</th>
+                {% endfor %}
+            </tr>
             {% for realty_object_string in realty_objects_array %}
             <tr>
+                <td>{{realty_object_string[0]}}</td>
                 <td>{{realty_object_string[1]}}</td>
                 <td>{{realty_object_string[2]}}</td>
                 <td>{{realty_object_string[3]}}</td>

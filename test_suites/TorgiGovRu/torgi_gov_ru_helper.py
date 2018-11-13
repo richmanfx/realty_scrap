@@ -6,12 +6,8 @@ import time
 import pickle
 
 from selene.api import *
-# from selene.support import by
-# from selene.support.jquery_style_selectors import s, ss
-
 from selenium.webdriver.support.ui import Select
-
-from jinja2 import Template, FileSystemLoader, Environment
+from jinja2 import FileSystemLoader, Environment
 
 from test_suites import config_file
 from test_suites.base_test_class import BaseTestClass
@@ -137,7 +133,7 @@ class TorgiGovRuHelper(BaseTestClass):
         xpath = "//h2/span[contains(text(),'найдено лотов')]"
         self.flash(s(by.xpath(xpath))).is_displayed()
 
-        time.sleep(config_file.WAIT_TIMEOUT)        # Для завершения поиска и
+        time.sleep(2 * config_file.WAIT_TIMEOUT)        # Для завершения поиска и
 
     def get_objects_quantity(self) -> int:
         """ Определить количество найденных объектов """
@@ -234,7 +230,9 @@ class TorgiGovRuHelper(BaseTestClass):
         """ Сохранить информацию в файл """
         self.log.debug(f"Work '{self.get_method_name()}'. Filename: {self.file_name}")
 
-        output_file = open(self.file_name, "wb")
+        project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+        output_file = open(project_dir + os.path.sep + self.file_name, "wb")
         pickle.dump(info_to_save, output_file)
         output_file.close()
 
@@ -242,7 +240,8 @@ class TorgiGovRuHelper(BaseTestClass):
         """ Считать информацию из файла """
         self.log.debug(f"Work '{self.get_method_name()}'. Filename: {self.file_name}")
 
-        input_file = open(self.file_name, 'rb')
+        project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        input_file = open(project_dir + os.path.sep + self.file_name, 'rb')
         info_from_file = pickle.load(input_file)
         input_file.close()
 
@@ -310,8 +309,8 @@ class TorgiGovRuHelper(BaseTestClass):
             }
 
         # Отсортировать большой словарь по коэффициенту доходности
-        sort_field_name = "Коэффициент доходности"
-        sorted_big_realty_list = sorted(big_realty_dict.items(), key=lambda x: x[1][sort_field_name], reverse=True)
+        sorted_big_realty_list = sorted(
+            big_realty_dict.items(), key=lambda x: x[1][config_file.SORT_FIELD_NAME], reverse=True)
 
         return sorted_big_realty_list
 
@@ -352,7 +351,7 @@ class TorgiGovRuHelper(BaseTestClass):
         realty_list_titles = self.get_table_titles(realty_list)
 
         # Записать html файл
-        with open(template_dir + os.path.sep + "index.html", "w", encoding='utf-8') as html_file:
+        with open(template_dir + os.path.sep + "torgi_gov_ru.html", "w", encoding='utf-8') as html_file:
             html_file.write(html_template.render(
                 table_titles=realty_list_titles,
                 realty_objects_array=realty_list_for_template,
@@ -388,6 +387,8 @@ class TorgiGovRuHelper(BaseTestClass):
         """ Получить заголовки столбцов таблицы из данных """
         self.log.debug(f"Work '{self.get_method_name()}'")
 
-        title_list = in_list[0][1].keys()
+        title_list = ["Номер извещения"]
+        dict_keys = in_list[0][1].keys()
+        title_list.extend(iter(dict_keys))
 
         return title_list

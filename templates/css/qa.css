@@ -1,0 +1,94 @@
+body {
+  background-color: #cccccc;
+  font-size: 1.2vw;
+}
+
+a {
+    /* font-size: 1.3 vw;  */
+}
+
+a:visited {
+    color: #0000ff;
+}
+
+h1 {
+    text-align: center;
+    color: #000099;
+    font-weight: normal;
+}
+
+h5 {
+    text-align: right;
+    color: #000000;	
+    font-weight: normal;
+}
+
+div.generic {
+  margin-left: 5vw;
+
+}
+
+table {
+  margin: 0 auto;
+  /* border: 1px solid grey; */
+  width: 90vw;
+  border-spacing: 10px;
+}
+
+table.links_list {
+  /* border: 1px solid grey; */
+  width 100%;
+
+}
+
+th {
+  /* border: 1px solid grey; */
+  width: 20%;
+}
+
+td {
+  /* border: 1px solid grey; */
+  text-align: center;
+}
+
+td.links {
+  text-align: left;
+  vertical-align: bottom;
+}
+
+td.liquidator_name {
+  text-align: left;
+}
+
+td.bag_number {
+  text-size: 1 vw;
+  color: red;
+}
+
+img.logo {
+  width: 	10vw;
+  height:	7vw;
+}
+
+img.bug {
+  width: 	2vw;
+  height:	2vw;
+  border-style: solid;
+  border-width: thick;
+}
+
+li .q {
+  color: red;
+}
+
+li .a {
+  color: green;
+}
+
+pre {
+    color: black;
+}
+
+span.name {
+    color: navy;
+}

@@ -2,6 +2,8 @@
   <dictionary name="zoer">
     <words>
       <w>datarow</w>
+      <w>doctype</w>
+      <w>jinja</w>
       <w>scrollx</w>
       <w>torgi</w>
     </words>
