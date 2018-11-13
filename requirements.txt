@@ -17,7 +17,9 @@ configparser==3.5.0       # via webdriver-manager
 crayons==0.1.2            # via webdriver-manager
 future==0.17.0            # via selene
 idna==2.7                 # via requests
+jinja2==2.10
 logbook==1.4.1
+markupsafe==1.1.0         # via jinja2
 more-itertools==4.3.0     # via pytest
 pip-tools==3.1.0
 pluggy==0.8.0             # via allure-python-commons, pytest
@@ -31,4 +33,4 @@ selene==1.0.0a12
 selenium==2.53.1          # via selene
 six==1.11.0               # via allure-pytest, allure-python-commons, more-itertools, pip-tools, pytest, selene
 urllib3==1.24             # via requests
-webdriver-manager==1.4.5  # via selene
+webdriver-manager==1.4.5

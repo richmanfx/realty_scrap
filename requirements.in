@@ -3,6 +3,7 @@
 #   pip-compile --output-file requirements.txt requirements.in
 
 allure-pytest
+jinja2
 logbook
 pip-tools
 pytest == 3.7.4

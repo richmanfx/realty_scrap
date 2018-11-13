@@ -22,7 +22,7 @@ class TestTorgiGovRu(TorgiGovRuHelper):
         self.drv.quit()
 
     ####################################################################################################################
-    # @pytest.skip
+    # @pytest.mark.skip
     @allure.feature("1. TorgiGovRu")
     @pytest.mark.run(order=101)
     @pytest.mark.dependency()
@@ -64,7 +64,7 @@ class TestTorgiGovRu(TorgiGovRuHelper):
         self.objects_wait()
 
     ####################################################################################################################
-    # @pytest.skip
+    # @pytest.mark.skip
     @allure.feature("1. TorgiGovRu")
     @pytest.mark.run(order=102)
     @pytest.mark.dependency(depends=["test_set_search_filters"])
@@ -82,3 +82,23 @@ class TestTorgiGovRu(TorgiGovRuHelper):
 
         # Сериализовать в файл
         self.to_file_save(self.new_object_info)
+
+    ###################################################################################################################
+    # @pytest.mark.skip
+    @allure.feature("1. TorgiGovRu")
+    @pytest.mark.run(order=103)
+    @pytest.mark.dependency(depends=["test_collect_information_about_objects"])
+    @allure.step("Расчёт окупаемости")
+    def test_payback_calculation(self):
+        """ Рассчитать окупаемость """
+
+        # Считать информацию по объектам из файла
+        self.new_object_info = self.from_file_load()
+        self.log.debug(f"Колекция объектов: {self.new_object_info}")
+
+        # Рассчитать коэффициент окупаемости
+        sorted_big_realty_list = self.payback_calculation
+
+        # Вывести результаты расчётов
+        self.log.debug(sorted_big_realty_list)
+        self.html_report_create(sorted_big_realty_list)
