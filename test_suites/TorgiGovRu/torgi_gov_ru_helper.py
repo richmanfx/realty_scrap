@@ -353,6 +353,7 @@ class TorgiGovRuHelper(BaseTestClass):
         # Записать html файл
         with open(template_dir + os.path.sep + "torgi_gov_ru.html", "w", encoding='utf-8') as html_file:
             html_file.write(html_template.render(
+                required_profit_margin=config_file.REQUIRED_PROFIT_MARGIN,
                 table_titles=realty_list_titles,
                 realty_objects_array=realty_list_for_template,
             ))
