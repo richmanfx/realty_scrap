@@ -1,4 +1,5 @@
 
+- Добавить в таблице на номер извещения ссылку на страницу объекта
 
 - Сделать сортировку по столбцам на JS:
     https://codereview.stackexchange.com/questions/37632/sorting-an-html-table-with-javascript

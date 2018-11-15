@@ -22,7 +22,7 @@ class TestTorgiGovRu(TorgiGovRuHelper):
         self.drv.quit()
 
     ####################################################################################################################
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @allure.feature("1. TorgiGovRu")
     @pytest.mark.run(order=101)
     @pytest.mark.dependency()
@@ -64,7 +64,7 @@ class TestTorgiGovRu(TorgiGovRuHelper):
         self.objects_wait()
 
     ####################################################################################################################
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @allure.feature("1. TorgiGovRu")
     @pytest.mark.run(order=102)
     @pytest.mark.dependency(depends=["test_set_search_filters"])
@@ -83,18 +83,17 @@ class TestTorgiGovRu(TorgiGovRuHelper):
         # Сериализовать в файл
         self.to_file_save(self.new_object_info)
 
-    ###################################################################################################################
+    ####################################################################################################################
     # @pytest.mark.skip
     @allure.feature("1. TorgiGovRu")
     @pytest.mark.run(order=103)
-    @pytest.mark.dependency(depends=["test_collect_information_about_objects"])
+    @pytest.mark.dependency()
     @allure.step("Расчёт окупаемости")
     def test_payback_calculation(self):
         """ Рассчитать окупаемость """
 
         # Считать информацию по объектам из файла
         self.new_object_info = self.from_file_load()
-        self.log.debug(f"Колекция объектов: {self.new_object_info}")
 
         # Рассчитать коэффициент окупаемости
         sorted_big_realty_list = self.payback_calculation
@@ -102,3 +101,19 @@ class TestTorgiGovRu(TorgiGovRuHelper):
         # Вывести результаты расчётов
         self.log.debug(sorted_big_realty_list)
         self.html_report_create(sorted_big_realty_list)
+
+    ####################################################################################################################
+    # @pytest.mark.skip
+    @allure.feature("1. TorgiGovRu")
+    @pytest.mark.run(order=104)
+    @pytest.mark.dependency()
+    @allure.step("Расчёт параметров объекта второго этапа оценки")
+    def test_second_stage_object_parameters_calculation(self):
+        """ Рассчитать параметры объекта второго этапа оценки """
+
+        # Считать информацию по объектам из файла
+        self.new_object_info = self.from_file_load()
+
+        # Рассчитать параметры
+
+        # Вывести результаты расчётов
