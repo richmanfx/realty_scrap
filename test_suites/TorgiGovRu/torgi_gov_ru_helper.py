@@ -363,9 +363,10 @@ class TorgiGovRuHelper(BaseTestClass):
         self.log.debug(f"Work '{self.get_method_name()}'")
 
         out_list = []
-        for real_obj in in_list:
+        for index, real_obj in enumerate(in_list):
 
             real_list = [
+                index + 1,
                 real_obj[0],
                 real_obj[1]["Коэффициент доходности"],
                 real_obj[1]["Площадь"],
@@ -388,7 +389,7 @@ class TorgiGovRuHelper(BaseTestClass):
         """ Получить заголовки столбцов таблицы из данных """
         self.log.debug(f"Work '{self.get_method_name()}'")
 
-        title_list = ["Номер извещения"]
+        title_list = ["N", "Номер извещения"]
         dict_keys = in_list[0][1].keys()
         title_list.extend(iter(dict_keys))
 

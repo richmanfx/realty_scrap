@@ -19,12 +19,12 @@
             {% for realty_object_string in realty_objects_array %}
             <tr>
                 <td>{{realty_object_string[0]}}</td>
-                {% if realty_object_string[1] >= required_profit_margin %}
-                    <td class="gud-payback">{{realty_object_string[1]}}</td>
+                <td>{{realty_object_string[1]}}</td>
+                {% if realty_object_string[2] >= required_profit_margin %}
+                    <td class="gud-payback">{{realty_object_string[2]}}</td>
                 {% else %}
-                    <td class="bad-payback">{{realty_object_string[1]}}</td>
+                    <td class="bad-payback">{{realty_object_string[2]}}</td>
                 {% endif %}
-                <td>{{realty_object_string[2]}}</td>
                 <td>{{realty_object_string[3]}}</td>
                 <td>{{realty_object_string[4]}}</td>
                 <td>{{realty_object_string[5]}}</td>
@@ -34,6 +34,7 @@
                 <td>{{realty_object_string[9]}}</td>
                 <td>{{realty_object_string[10]}}</td>
                 <td>{{realty_object_string[11]}}</td>
+                <td>{{realty_object_string[12]}}</td>
             </tr>
             {% endfor %}
         </table>
