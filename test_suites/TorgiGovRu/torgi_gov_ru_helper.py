@@ -17,6 +17,9 @@ class TorgiGovRuHelper(BaseTestClass):
     """ Хелпер скрапа объектов недвижимости, сдающихся государством в аренду на сайте "torgi.gov.ru" """
 
     new_object_info = {}
+    year_all_area_insurance = 0.0
+    month_housing_office = 0.0
+    month_heating = 0.0
     file_name = "test_suites/TorgiGovRu/torgi_gov_ru.pkl"
 
     def come_in_ext_search(self) -> None:
@@ -261,13 +264,13 @@ class TorgiGovRuHelper(BaseTestClass):
             link = self.new_object_info[real_obj][3]                            # Ссылка на объект на сайте
 
             # Страховка всей площади за год, руб
-            year_all_area_insurance = self.get_insurance(building_area)
+            self.year_all_area_insurance = self.get_insurance(building_area)
 
             # Стоимость отопления в месяц, руб
-            month_heating = config_file.HEATING * building_area
+            self.month_heating = config_file.HEATING * building_area
 
             # Обслуживание ЖЭКом в месяц, руб
-            month_housing_office = config_file.HOUSING_OFFICE * building_area
+            self.month_housing_office = config_file.HOUSING_OFFICE * building_area
 
             # Доход от аренды в месяц
             month_rental_income = building_area * config_file.AVERAGE_RENTAL
@@ -278,8 +281,8 @@ class TorgiGovRuHelper(BaseTestClass):
             # Расходы в месяц
             month_payout = \
                 month_rental_payout + \
-                month_heating + \
-                month_housing_office + \
+                self.month_heating + \
+                self.month_housing_office + \
                 config_file.ACCOUNTING_SERVICE + \
                 (config_file.CONTRACT_REGISTRATION + config_file.RUNNING_COST) / rent_time / 12
 
@@ -287,7 +290,7 @@ class TorgiGovRuHelper(BaseTestClass):
             year_rental_income = month_rental_income * config_file.PROFIT_MONTHS
 
             # Коэффициент доходности
-            profit_margin = (year_rental_income - (month_payout * 12) + year_all_area_insurance) / \
+            profit_margin = (year_rental_income - (month_payout * 12) + self.year_all_area_insurance) / \
                             (config_file.CONTRACT_REGISTRATION + config_file.RUNNING_COST)
 
             # Безубыточность сдачи, руб/кв.м. в месяц
@@ -299,11 +302,11 @@ class TorgiGovRuHelper(BaseTestClass):
                 "Площадь": f"{building_area:.1f}",
                 "Безубыточная сдача, руб/кв.м. в месяц": f"{loss_free_rent:.2f}",
                 "Выплаты ренты в год": f"{rent_rights_cost:.2f}",
-                "Страховка за год": f"{year_all_area_insurance:.2f}",
+                "Страховка за год": f"{self.year_all_area_insurance:.2f}",
                 "Выплаты ренты в месяц": f"{month_rental_payout:.2f}",
                 "Расходы в месяц": f"{month_payout:.2f}",
-                "Стоимость отопления в месяц": f"{month_heating:.2f}",
-                "Обслуживание ЖЭКом в месяц": f"{month_housing_office:.2f}",
+                "Стоимость отопления в месяц": f"{self.month_heating:.2f}",
+                "Обслуживание ЖЭКом в месяц": f"{self.month_housing_office:.2f}",
                 "Доход в год": f"{year_rental_income:.2f}",
                 "Доход в месяц": f"{month_rental_income:.2f}",
                 "Ссылка": f"{link}",
@@ -357,6 +360,10 @@ class TorgiGovRuHelper(BaseTestClass):
                 required_profit_margin=config_file.REQUIRED_PROFIT_MARGIN,
                 table_titles=realty_list_titles,
                 realty_objects_array=realty_list_for_template,
+                config_file=config_file,
+                year_all_area_insurance=self.year_all_area_insurance,
+                month_housing_office=self.month_housing_office,
+                month_heating=self.month_heating,
             ))
 
     def convert_real_dict_to_list(self, in_list: list) -> list:
