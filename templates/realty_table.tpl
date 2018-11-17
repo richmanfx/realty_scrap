@@ -19,7 +19,7 @@
             {% for realty_object_string in realty_objects_array %}
             <tr>
                 <td>{{realty_object_string[0]}}</td>
-                <td>{{realty_object_string[1]}}</td>
+                <td><a href="{{realty_object_string[13]}}">{{realty_object_string[1]}}</a></td>
                 {% if realty_object_string[2] >= required_profit_margin %}
                     <td class="gud-payback">{{realty_object_string[2]}}</td>
                 {% else %}

@@ -221,7 +221,6 @@ class TorgiGovRuHelper(BaseTestClass):
                 float(objects_month_rents[index].text.replace(" ", "").replace(",", ".").replace("руб.", "")),
                 int(objects_rent_periods[index].text.replace(" лет", "")),
                 objects_links[index].get_attribute("href"),
-
             ]
 
         return object_info
@@ -259,6 +258,7 @@ class TorgiGovRuHelper(BaseTestClass):
             building_area = self.new_object_info[real_obj][0]                   # Площадь объекта, кв.м.
             rent_rights_cost = 12 * self.new_object_info[real_obj][1]           # Стоимости права аренды, руб в год
             rent_time = self.new_object_info[real_obj][2]                       # Срок аренды, лет
+            link = self.new_object_info[real_obj][3]                            # Ссылка на объект на сайте
 
             # Страховка всей площади за год, руб
             year_all_area_insurance = self.get_insurance(building_area)
@@ -306,6 +306,7 @@ class TorgiGovRuHelper(BaseTestClass):
                 "Обслуживание ЖЭКом в месяц": f"{month_housing_office:.2f}",
                 "Доход в год": f"{year_rental_income:.2f}",
                 "Доход в месяц": f"{month_rental_income:.2f}",
+                "Ссылка": f"{link}",
             }
 
         # Отсортировать большой словарь по коэффициенту доходности
@@ -379,6 +380,7 @@ class TorgiGovRuHelper(BaseTestClass):
                 real_obj[1]["Обслуживание ЖЭКом в месяц"],
                 real_obj[1]["Доход в год"],
                 real_obj[1]["Доход в месяц"],
+                real_obj[1]["Ссылка"],
             ]
 
             out_list.append(real_list)
@@ -392,5 +394,8 @@ class TorgiGovRuHelper(BaseTestClass):
         title_list = ["N", "Номер извещения"]
         dict_keys = in_list[0][1].keys()
         title_list.extend(iter(dict_keys))
+
+        # Удалить из заголовков ссылку - ссылка повешена на номер извещения, не нужен отдельный столбец
+        title_list.pop(title_list.index("Ссылка"))
 
         return title_list
