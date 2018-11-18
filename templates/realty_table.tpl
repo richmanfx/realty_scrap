@@ -36,6 +36,7 @@
                 <td>{{realty_object_string[10]}}</td>
                 <td>{{realty_object_string[11]}}</td>
                 <td>{{realty_object_string[12]}}</td>
+                <td>{{realty_object_string[14]}}</td>
             </tr>
             {% endfor %}
         </table>

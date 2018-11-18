@@ -20,6 +20,7 @@ class TorgiGovRuHelper(BaseTestClass):
     year_all_area_insurance = 0.0
     month_housing_office = 0.0
     month_heating = 0.0
+    all_area_repair = 0.0
     file_name = "test_suites/TorgiGovRu/torgi_gov_ru.pkl"
 
     def come_in_ext_search(self) -> None:
@@ -266,6 +267,9 @@ class TorgiGovRuHelper(BaseTestClass):
             # Страховка всей площади за год, руб
             self.year_all_area_insurance = self.get_insurance(building_area)
 
+            # Стоимость предварительного ремонта всей площади, руб
+            self.all_area_repair = config_file.REPAIR * building_area
+
             # Стоимость отопления в месяц, руб
             self.month_heating = config_file.HEATING * building_area
 
@@ -310,6 +314,7 @@ class TorgiGovRuHelper(BaseTestClass):
                 "Доход в год": f"{year_rental_income:.2f}",
                 "Доход в месяц": f"{month_rental_income:.2f}",
                 "Ссылка": f"{link}",
+                "Предварительный ремонт": f"{self.all_area_repair:.2f}",
             }
 
         # Отсортировать большой словарь по коэффициенту доходности
@@ -388,6 +393,8 @@ class TorgiGovRuHelper(BaseTestClass):
                 real_obj[1]["Доход в год"],
                 real_obj[1]["Доход в месяц"],
                 real_obj[1]["Ссылка"],
+                real_obj[1]["Предварительный ремонт"],
+
             ]
 
             out_list.append(real_list)
