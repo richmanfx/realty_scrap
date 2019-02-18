@@ -18,4 +18,6 @@ echo " ===> Активация виртуального окружения:"
 echo ""
 echo " ===> Инсталляция пакетов из requirements.txt в виртуальном пространстве:"
 pwd
+cp ./requirements.txt ${VIRTUAL_ENV_DIR}/${VIRTUAL_ENV_NAME}/requirements.txt
 pip3 install -r ${VIRTUAL_ENV_DIR}/${VIRTUAL_ENV_NAME}/requirements.txt
+
