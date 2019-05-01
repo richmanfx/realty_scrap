@@ -293,12 +293,12 @@ class TorgiGovRuHelper(BaseTestClass):
             # Доход в год с учётом несдаваемых месяцев
             year_rental_income = month_rental_income * config_file.PROFIT_MONTHS
 
-            # Коэффициент доходности
+            # Коэффициент доходности        TODO: здесь минус??? ---->|
             profit_margin = (year_rental_income - (month_payout * 12) + self.year_all_area_insurance) / \
                             (config_file.CONTRACT_REGISTRATION + config_file.RUNNING_COST)
 
             # Безубыточность сдачи, руб/кв.м. в месяц
-            loss_free_rent = ((month_payout * 12) / 10) / building_area
+            loss_free_rent = ((month_payout * 12) / 10) / building_area         # TODO: 10 - заменить параметром из настроек
 
             # Собрать большой словарь с параметрами объектов для отчёта
             big_realty_dict[real_obj] = {
